@@ -7,7 +7,6 @@ require 'app_indicator_ssh/error'
 require 'app_indicator_ssh/log'
 
 #TODO add ruby libnotify to display errors, info to user
-#TODO needs logging 
 #TODO needs own icon in tray
 module AppIndicatorSSH
 
@@ -32,8 +31,9 @@ module AppIndicatorSSH
 				@log.write('info', "Launched: #{host}")
 			rescue AppIndicatorSSHError => e
 				puts "Command Error: #{e} "
+				@log.write('error', "Error ocurred in system call: #{e}")
 			end
-			raise AppIndicatorSSHError, "There was a problem calling " unless system_call.success?
+			raise AppIndicatorSSHError, "There was a problem calling ssh command" unless system_call.success?
 			#p :dbg => system_call.output
     end
     #TODO needs labels?, sub-menus? for each host category--this does not scale for large hosts lists

@@ -2,17 +2,18 @@ require 'yaml'
 require 'pathname'
 require 'app_indicator_ssh/error'
 
+#TODO: needs logging for error
+
 class HostsConfig
 	attr_accessor :filename, :config
 	def initialize(args={})
-		args.each { |key, value| send("#{key}=", value) if respond_to?(key) }
+		#args.each { |key, value| send("#{key}=", value) if respond_to?(key) }
 		@home_dir=nil
 		@config_dir=File.dirname(__FILE__) + '/../../config/'
 		if args[:filename]
 			@filename = @config_dir + args[:filename]
 		else
-			#@filename = self.home_dir + 'hosts.yml'
-			@filename=File.dirname(__FILE__) + '/../../config/hosts.yml'
+			@filename = @config_dir + 'hosts.yml'
 		end
   end
 
@@ -30,6 +31,7 @@ class HostsConfig
 			@config=YAML.load_file(@filename)
 		rescue AppIndicatorSSHError => e
 			puts "Error: #{e}"
+			#@log.write('error', "Error ocurred in loading config file: #{e}")
 		end
 		return @config
 	end
