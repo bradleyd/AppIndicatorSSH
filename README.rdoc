@@ -1,16 +1,28 @@
 = AppIndicatorSSH
 
-Description goes here.
+AppIndicatorSSH is a libappindicator ssh client.  This is a beta version and will get quite clumsy the more hosts you have.
+ *Future versions may have menus
 
-== Contributing to AppIndicatorSSH
- 
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
-* Fork the project
-* Start a feature/bugfix branch
-* Commit and push until you are happy with your contribution
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+== How it works
+First, grab the source code from 
+  git@github.com:bradleyd/AppIndicatorSSH.git
+
+ * You will need ruby-libappindicator and ruby-gtk2 for this to work; you can get it via rubygems or github
+ * https://github.com/leander256/ruby_libappindicator.git
+
+cd AppIndicatorSSH/
+  bundle install
+
+The binary is located under the bin directory.  You could daemonize the binary or launch it from command line.
+  ruby bin/app_indicator_ssh.rb
+
+There is a yaml file which has the hosts you ssh into.  The yaml file has this basic structure:
+  - [Host Category]: # i.e "Web Servers"
+    - title: hostname
+      sshparams: you@hostname
+      type: web server
+      geometry: 
+
 
 == Copyright
 

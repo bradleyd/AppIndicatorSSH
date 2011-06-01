@@ -1,0 +1,3 @@
+class AppIndicatorSSHError < StandardError
+end
+
