@@ -1,9 +1,10 @@
 require 'rubygems'
-require "ruby-libappindicator"
+require 'ruby-libappindicator'
 require 'yaml'
 require 'app_indicator_ssh/system_calls'
 require 'app_indicator_ssh/config'
 require 'app_indicator_ssh/error'
+require 'app_indicator_ssh/log'
 
 #TODO add ruby libnotify to display errors, info to user
 #TODO needs logging 
@@ -20,6 +21,7 @@ module AppIndicatorSSH
       @menu = Gtk::Menu.new
       @item=nil
 			@config=HostsConfig.new
+			@log=Log.new
 		end
 	  
 	  #called when user selects host from menu
@@ -27,11 +29,12 @@ module AppIndicatorSSH
 			begin
 			  system_call=SystemCall.new('gnome-terminal -x ssh ' + host) 
 			  system_call.run
+				@log.write('info', "Launched: #{host}")
 			rescue AppIndicatorSSHError => e
 				puts "Command Error: #{e} "
 			end
 			raise AppIndicatorSSHError, "There was a problem calling " unless system_call.success?
-			p :dbg => system_call.output
+			#p :dbg => system_call.output
     end
     #TODO needs labels?, sub-menus? for each host category--this does not scale for large hosts lists
 	  def build_menu

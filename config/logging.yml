@@ -1,0 +1,14 @@
+##this is for the logging class
+log:
+ log_file: app_indicator_ssh.log
+ log_level: info
+ name: ais
+
+##smtp options for logging
+smtp:
+  server: 10.130.103.25
+  port: 25
+  domain: example.com
+  from_address: ais@example.com
+  to_address: bradleydsmith@gmail.com
+

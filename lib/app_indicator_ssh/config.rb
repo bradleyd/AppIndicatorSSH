@@ -1,19 +1,20 @@
 require 'yaml'
 require 'pathname'
+require 'app_indicator_ssh/error'
 
 class HostsConfig
 	attr_accessor :filename, :config
 	def initialize(args={})
 		args.each { |key, value| send("#{key}=", value) if respond_to?(key) }
 		@home_dir=nil
+		@config_dir=File.dirname(__FILE__) + '/../../config/'
 		if args[:filename]
-			@filename = args[:filename]
+			@filename = @config_dir + args[:filename]
 		else
 			#@filename = self.home_dir + 'hosts.yml'
 			@filename=File.dirname(__FILE__) + '/../../config/hosts.yml'
 		end
-
-	end
+  end
 
 	def home_dir
 		return @home_dir unless @home_dir.nil?
@@ -45,5 +46,16 @@ class HostsConfig
 		end
 		return all_hosts
 	end
+  
+  def method_missing(method, *args, &block)
+    options=self.load_config
+    if method.to_s.include?('_')
+      type = method.to_s.split('_').last
+      options[type]
+    else
+      super
+    end
+  end
+
 end
 
