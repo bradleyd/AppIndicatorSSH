@@ -16,12 +16,14 @@ cd AppIndicatorSSH/
 The binary is located under the bin directory.  You could daemonize the binary or launch it from command line.
   ruby bin/app_indicator_ssh.rb
 
-There is a yaml file which has the hosts you ssh into.  The yaml file has this basic structure:
+Under the config/ directory there is a host yaml file which will contain all the hosts you want displayed.  The yaml file has this basic structure:
   - [Host Category]: # i.e "Web Servers"
     - title: hostname
       sshparams: you@hostname
       type: web server
       geometry: 
+
+* There is also a logging config file located under the same directory which has all logging and smtp information
 
 
 == Copyright
