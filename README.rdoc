@@ -1,7 +1,7 @@
 = AppIndicatorSSH
 
 AppIndicatorSSH is a libappindicator ssh client.  This is a beta version and will get quite clumsy the more hosts you have.
- *Future versions may have menus
+ *Future versions will need to have sub-menus
 
 == How it works
 First, grab the source code from 
