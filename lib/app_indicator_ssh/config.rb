@@ -9,7 +9,8 @@ class HostsConfig
 		if args[:filename]
 			@filename = args[:filename]
 		else
-			@filename = self.home_dir + 'hosts.yml'
+			#@filename = self.home_dir + 'hosts.yml'
+			@filename=File.dirname(__FILE__) + '/../../config/hosts.yml'
 		end
 
 	end

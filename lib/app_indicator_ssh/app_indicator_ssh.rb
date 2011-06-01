@@ -12,6 +12,7 @@ module AppIndicatorSSH
 
   class AppUi
     attr_accessor :top_menu
+		LABEL = 'SSH'
 		def initialize(args={})
 			@ai = AppIndicator::AppIndicator.new("AppSSH", "gnome-netstatus-tx", AppIndicator::Category::APPLICATION_STATUS);
       @window = Gtk::Window.new
@@ -46,7 +47,9 @@ module AppIndicatorSSH
 		def run
 			@menu.show_all
       @ai.set_menu(@menu)
-      @ai.set_status(AppIndicator::Status::ACTIVE)
+			#XXX Not sure why set_label requires two strings?
+			@ai.set_label(LABEL, LABEL)
+			@ai.set_status(AppIndicator::Status::ACTIVE)
       Gtk.main
 		end
 	end
