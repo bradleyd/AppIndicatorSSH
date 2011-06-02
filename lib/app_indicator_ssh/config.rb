@@ -28,25 +28,38 @@ class HostsConfig
 
 	def load_config
 		begin
-			@config=YAML.load_file(@filename)
+			config=YAML.load_file(@filename)
 		rescue AppIndicatorSSHError => e
 			puts "Error: #{e}"
 			#@log.write('error', "Error ocurred in loading config file: #{e}")
 		end
-		return @config
+		return config unless config == false 
 	end
 	#TODO: this need to be more robust, only returns the host ssh params...there is title, type, etc..
 	def get_hosts
-		all_hosts={}
-		config=self.load_config
-		config['hosts'].each do |section|
-			section.each do |host_section, host_values|
-				host_values.each do |host|
-					all_hosts[host['title']] = host['sshparams'] unless host['sshparams'].nil?
-				end
-			end
+		#all_hosts={}
+		#config=self.load_config
+		#config['hosts'].each do |section|
+		#	section.each do |host_section, host_values|
+		#		host_values.each do |host|
+		#			all_hosts[host['title']] = host['sshparams'] unless host['sshparams'].nil?
+		#		end
+		#	end
+		#end
+		#return all_hosts
+    all_hosts={}
+    config=self.load_config
+		begin
+      config['hosts'].each do |section|
+        section.each do |host_section, host_values|
+          all_hosts[host_section] = host_values unless host_section.nil?
+        end
+      end
+	  rescue Exception => e
+			 puts "Your host file is probably empty: #{e}"
+			 exit
 		end
-		return all_hosts
+    return all_hosts
 	end
   
   def method_missing(method, *args, &block)

@@ -17,8 +17,11 @@ module AppIndicatorSSH
 			@ai = AppIndicator::AppIndicator.new("AppSSH", "gnome-netstatus-tx", AppIndicator::Category::APPLICATION_STATUS);
       @window = Gtk::Window.new
       @window.set_title 'foobar'
-      @menu = Gtk::Menu.new
-      @item=nil
+      @main_menu = Gtk::Menu.new
+      @sub_menu = Gtk::Menu.new
+      @top_level=nil
+      @sItems=nil
+		  @menu_sep = Gtk::SeparatorMenuItem.new
 			@config=HostsConfig.new
 			@log=Log.new
 		end
@@ -36,21 +39,36 @@ module AppIndicatorSSH
 			raise AppIndicatorSSHError, "There was a problem calling ssh command" unless system_call.success?
 			#p :dbg => system_call.output
     end
-    #TODO needs labels?, sub-menus? for each host category--this does not scale for large hosts lists
-	  def build_menu
+	  
+    def build_menu
+			#@config.get_hosts.each do |host, value|
+      #  @item = Gtk::MenuItem.new(host)
+      #  @item.signal_connect('activate') { |widget|
+      #    self.host_select(widget,value)
+      #  }
+      #  @menu.append(@item)
+			#end
 			@config.get_hosts.each do |host, value|
-        @item = Gtk::MenuItem.new(host)
-        @item.signal_connect('activate') { |widget|
-          self.host_select(widget,value)
-        }
-        @menu.append(@item)
+				@sub_menu=Gtk::Menu.new
+				@top_level = Gtk::MenuItem.new("_#{host}")
+				@main_menu.append @top_level
+				value.each do |v|
+					@sItems = Gtk::MenuItem.new(v['title'])
+					@sItems.signal_connect('activate') { |widget|
+						self.host_select(widget,v['sshparams'])
+					}
+					@sub_menu.append(@sItems)
+				end
+				@main_menu.append @menu_sep
+				@top_level.set_submenu(@sub_menu)
 			end
+
 		end
 
 		def run
 			@menu.show_all
       @ai.set_menu(@menu)
-			#XXX Not sure why set_label requires two strings?
+			#XXX Not sure why libappindicator.set_label requires two strings?
 			@ai.set_label(LABEL, LABEL)
 			@ai.set_status(AppIndicator::Status::ACTIVE)
       Gtk.main
