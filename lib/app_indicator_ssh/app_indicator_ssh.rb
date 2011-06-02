@@ -39,7 +39,15 @@ module AppIndicatorSSH
 			raise AppIndicatorSSHError, "There was a problem calling ssh command" unless system_call.success?
 			#p :dbg => system_call.output
     end
-	  
+
+	  def quit_menu(menu)
+			 ex=Gtk::MenuItem.new("_Quit")
+			 menu.append ex
+			 ex.signal_connect "activate" do
+			   Gtk.main_quit
+			 end
+		end
+
     def build_menu
 			#@config.get_hosts.each do |host, value|
       #  @item = Gtk::MenuItem.new(host)
@@ -62,7 +70,7 @@ module AppIndicatorSSH
 				@main_menu.append @menu_sep
 				@top_level.set_submenu(@sub_menu)
 			end
-
+      self.quit_menu(@main_menu)
 		end
 
 		def run
