@@ -66,8 +66,8 @@ module AppIndicatorSSH
 		end
 
 		def run
-			@menu.show_all
-      @ai.set_menu(@menu)
+			@main_menu.show_all
+      @ai.set_menu(@main_menu)
 			#XXX Not sure why libappindicator.set_label requires two strings?
 			@ai.set_label(LABEL, LABEL)
 			@ai.set_status(AppIndicator::Status::ACTIVE)

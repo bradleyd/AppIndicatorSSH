@@ -33,7 +33,7 @@ class HostsConfig
 			puts "Error: #{e}"
 			#@log.write('error', "Error ocurred in loading config file: #{e}")
 		end
-		return config unless config == false 
+		return config unless config == false
 	end
 	#TODO: this need to be more robust, only returns the host ssh params...there is title, type, etc..
 	def get_hosts
@@ -49,15 +49,15 @@ class HostsConfig
 		#return all_hosts
     all_hosts={}
     config=self.load_config
-		begin
+		begin 
       config['hosts'].each do |section|
         section.each do |host_section, host_values|
           all_hosts[host_section] = host_values unless host_section.nil?
         end
       end
-	  rescue Exception => e
-			 puts "Your host file is probably empty: #{e}"
-			 exit
+		rescue Exception => e
+			puts "Your hosts.yml file is empty?: #{e}"
+			exit
 		end
     return all_hosts
 	end
