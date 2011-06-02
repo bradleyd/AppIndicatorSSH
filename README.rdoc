@@ -9,7 +9,11 @@ First, grab the source code from
 
  * You will need ruby-libappindicator and ruby-gtk2 for this to work; you can get it via rubygems or github
  * https://github.com/leander256/ruby_libappindicator.git
-
+ * NOTE: libappindicator fails to install if you are using rubygems 1.8.5 NameError: uninitialized constant Gem::Path
+   So I reverted back to rubygems 1.6.2 and it fixed the issue
+  
+  sudo apt-get install libappindicator-dev
+ 
 cd AppIndicatorSSH/
   bundle install
 
